@@ -1,17 +1,13 @@
-import React, { useEffect } from "react";
-import { useAppDispatch } from "./store/store";
-import { getAnswer } from "./store/slice/answer/getAnswer";
-import { Grid } from "./components/Grid";
+import React, { useEffect, useState } from "react";
+
+import { Grid } from "./components/grid/Grid";
+import { Keyboard } from "./components/keyboard/Keyboard";
 import { useGuess } from "./hooks/useGuess";
 
 function App() {
-  const dispatch = useAppDispatch();
-  const { guess, setGuess, addGuessLetter } = useGuess();
+  const [error, setError] = useState<string>("");
 
-  //on load, get new random answer word
-  useEffect(() => {
-    dispatch(getAnswer());
-  }, []);
+  const { guess, setGuess, addGuessLetter } = useGuess({ setError });
 
   return (
     <>
@@ -23,6 +19,12 @@ function App() {
         </header>
         <main>
           <Grid guess={guess} setGuess={setGuess} />
+          <Keyboard
+            onButtonClick={(letter) => {
+              addGuessLetter(letter);
+            }}
+          />
+          {error && <p>{error}</p>}
         </main>
       </div>
     </>

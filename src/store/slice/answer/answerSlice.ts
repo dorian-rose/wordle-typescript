@@ -10,10 +10,9 @@ const initialState: IAnswerState = {
 
 export const answerSlice = createSlice({
   name: "answer",
-  initialState,
+  initialState: { answer: "hello" },
   reducers: {
     setAnswer: (state, action: PayloadAction<IAnswerState>) => {
-      console.log(action.payload.answer);
       state.answer = action.payload.answer;
     },
   },
