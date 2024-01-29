@@ -1,7 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { guessesSlice } from "./slice/guesses/guessesSlice";
 import { answerSlice } from "./slice/answer/answerSlice";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import {
+  type TypedUseSelectorHook,
+  useDispatch,
+  useSelector,
+} from "react-redux";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +14,7 @@ export const store = configureStore({
   },
 });
 
+// types
 export type RootState = ReturnType<typeof store.getState>;
 export const useAppDispatch: () => typeof store.dispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

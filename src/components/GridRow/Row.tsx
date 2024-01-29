@@ -1,14 +1,7 @@
-import React from "react";
+import { Tile } from "../GridTile";
+import { type IRowProps } from "./Row.types";
 
-import { Tile } from "./Tile";
-
-interface RowProps {
-  word: string;
-  result?: string[]; // LetterState[];
-  className?: string;
-}
-
-export const Row = ({ word = "", result = [], className = "" }: RowProps) => {
+export const Row = ({ word = "", result = [] }: IRowProps): JSX.Element => {
   // ensure array always has length of 5 for renderization
   const lettersRemaining = 5 - word.length;
 

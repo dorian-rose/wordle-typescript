@@ -1,30 +1,17 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { KeyboardType } from "../../../helpers/formatKeyboard";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { type IGuessState, type IGuessAction } from "../../../models/models";
 
-export interface IGuess {
-  guessWord: string;
-  result: string[];
-}
-
-interface IGuessState {
-  guesses: IGuess[];
-  keyboard: KeyboardType;
-}
-
-interface IGuessAction {
-  guessWord: string;
-  result: string[];
-  keyboard: KeyboardType;
-}
-
-const initialState: IGuessState = { guesses: [], keyboard: {} };
+const initialState: IGuessState = {
+  guesses: [],
+  keyboard: {},
+  gameState: "playing",
+};
 
 export const guessesSlice = createSlice({
   name: "guesses",
   initialState,
   reducers: {
     setGuesses: (state, action: PayloadAction<IGuessAction>) => {
-      console.log("inReducer");
       const newState = [
         ...state.guesses,
         {
@@ -34,6 +21,7 @@ export const guessesSlice = createSlice({
       ];
       state.guesses = newState;
       state.keyboard = action.payload.keyboard;
+      state.gameState = action.payload.gameState;
     },
   },
 });
