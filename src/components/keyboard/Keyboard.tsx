@@ -1,65 +1,25 @@
+import { type IKeyboardProps } from "./Keyboard.types";
+import { keyboardKeys } from "./keyboardKeys";
+import { Keys } from "../Keys";
 import React from "react";
-import { Keys } from "./Keys";
 
-interface IKeyboardProps {
-  onButtonClick: (letter: string) => void;
-}
-
-export const Keyboard = ({ onButtonClick }: IKeyboardProps) => {
-  const kbRow1: string[] = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
-  const kbRow2: string[] = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
-  const kbRow3: string[] = [
-    "Enter",
-    "z",
-    "x",
-    "c",
-    "v",
-    "b",
-    "n",
-    "m",
-    "Backspace",
-  ];
-
-  const onClick = (ev: React.MouseEvent<HTMLButtonElement>) => {
-    const letter = ev.currentTarget.textContent;
-    onButtonClick(letter);
-  };
-
-  const Set1 = () => {
-    return (
-      <div className="flex flex-row justify-center mx-1">
-        {kbRow1.map((char) => (
-          <Keys onClick={onClick} key={char} letter={char} />
-        ))}
-      </div>
-    );
-  };
-
-  const Set2 = () => {
-    return (
-      <div className="flex flex-row justify-center sm:my-3 mx-2 sm:mx-5">
-        {kbRow2.map((char) => (
-          <Keys onClick={onClick} key={char} letter={char} />
-        ))}
-      </div>
-    );
-  };
-
-  const Set3 = () => {
-    return (
-      <div className="flex flex-row justify-center mx-1">
-        {kbRow3.map((char) => (
-          <Keys onClick={onClick} key={char} letter={char} />
-        ))}
-      </div>
-    );
-  };
+export const Keyboard = ({ onButtonClick }: IKeyboardProps): JSX.Element => {
+  const renderRow = (row: string[], className: string): JSX.Element => (
+    <div
+      key={className}
+      className={`flex flex-row justify-center ${className}`}
+    >
+      {row.map((char) => (
+        <Keys key={char} letter={char} onButtonClick={onButtonClick} />
+      ))}
+    </div>
+  );
 
   return (
     <section className="mx-auto max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
-      <Set1 />
-      <Set2 />
-      <Set3 />
+      {renderRow(keyboardKeys.slice(0, 10), "mx-1")}
+      {renderRow(keyboardKeys.slice(10, 19), "mx-2 sm:mx-5 sm:my-3")}
+      {renderRow(keyboardKeys.slice(19), "mx-1 1")}
     </section>
   );
 };

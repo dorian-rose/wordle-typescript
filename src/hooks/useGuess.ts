@@ -1,76 +1,86 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useId } from "react";
 import { useAppSelector, useAppDispatch } from "../store/store";
-import { calculateGuess } from "../helpers/calculateGuess";
-import { setGuesses } from "../store/slice/guesses/guessesSlice";
-import { formatKeyboard, KeyboardType } from "../helpers/formatKeyboard";
+import { calculateGuess, isWordValid } from "../helpers";
+import { makeNewGuess, setGuesses } from "../store/slice/guesses";
+import {
+  type ResultStates,
+  type IGuessAction,
+  type IKeyboard,
+  IGuess,
+} from "../models";
+import { type IUseGuessResult, type IUseGuessProps } from "./useGuess.types";
+/// End imports///
 
-interface UseGuessProps {
-  setError: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export const useGuess = ({ setError }: UseGuessProps) => {
+export const useGuess = ({ setMessage }: IUseGuessProps): IUseGuessResult => {
   const dispatch = useAppDispatch();
-  //ensure that current state will be sent in addGuessLetter
-  //   const answerRef = useRef();
-  const { answer } = useAppSelector((state) => state.answer);
-  const currentKeyboard = useAppSelector((state) => state.guesses.keyboard);
-
-  //   answerRef.current = answer;
-
   const [guess, setGuess] = useState("");
 
-  const addGuessLetter = (letter: string) => {
+  //useRef to ensure current value used
+  const keyboardRef = useRef<IKeyboard | null>(null);
+  const answerRef = useRef<string | null>(null);
+  const guessesRef = useRef<IGuess[] | null>(null);
+  const { guesses, keyboard } = useAppSelector((state) => state.guesses);
+  const { answer } = useAppSelector((state) => state.answer);
+  guessesRef.current = guesses;
+  keyboardRef.current = keyboard;
+  answerRef.current = answer;
+
+  const addGuessLetter = (letter: string): void => {
     setGuess((curGuess) => {
       let newGuess;
+      // add letter if not already max length
       if (letter.length === 1 && curGuess.length !== 5) {
-        //add key letter to current letters
         newGuess = curGuess + letter;
       } else {
-        // current letters remain the same
         newGuess = curGuess;
       }
 
-      //manage back and enter buttons
+      // manage backspace and enter buttons
       switch (letter) {
         case "Backspace":
           return newGuess.slice(0, -1);
         case "Enter":
           if (newGuess.length === 5) {
-            //validate and save in state, clear current letters
-
-            const result: string[] = calculateGuess({
-              guessWord: newGuess,
-              answerWord: answer,
-            });
-
-            if (result[0] === "invalid") {
-              setError("Word not in list");
-              console.log("invalid");
-              return "";
-              //error alert logic here - word not in list
-            } else {
-              //get keyboard
-              const keyboard: KeyboardType = formatKeyboard({
-                guessWord: newGuess,
-                result,
-                currentKeyboard,
-              });
-              dispatch(setGuesses({ guessWord: newGuess, result, keyboard })); //answerRef.current);
+            // 1. validate that exists in list
+            const validWord: boolean = isWordValid(newGuess);
+            if (!validWord) {
+              setMessage("Word not in list");
               return "";
             }
-          } else {
-            console.log("invalid");
-            setError("Word must have five letters");
+            if (answerRef.current === null || guessesRef.current === null) {
+              setMessage("An error ocurred");
+              return "";
+            }
+            // 2. calculateguess:  calculate correct letters
+            const result: ResultStates[] = calculateGuess({
+              guessWord: newGuess,
+              answerWord: answerRef.current,
+            });
+
+            // 3. dispatch to state
+            const newGuessObject: IGuessAction = makeNewGuess({
+              guessWord: newGuess,
+              result,
+              guesses: guessesRef.current,
+              oldKeyboard: keyboardRef.current,
+            });
+            console.log(newGuessObject.gameState);
+            if (newGuessObject.gameState !== "playing") {
+              setMessage(newGuessObject.gameState);
+            }
+            dispatch(setGuesses(newGuessObject));
             return "";
-            //error alert logic here -word must have 5 letters
+          } else {
+            setMessage("Word must have five letters");
+            return "";
           }
       }
       return newGuess;
     });
   };
 
-  const onKeyDown = (e) => {
-    let letter = e.key;
+  const onKeyDown = (ev: KeyboardEvent): void => {
+    const letter = ev.key;
     addGuessLetter(letter);
   };
 
