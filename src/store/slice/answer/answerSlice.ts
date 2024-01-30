@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface IAnswerState {
-  answer: string;
+  answer: string
 }
 
 const initialState: IAnswerState = {
-  answer: "",
+  answer: ""
 };
 
 export const answerSlice = createSlice({
@@ -13,10 +13,9 @@ export const answerSlice = createSlice({
   initialState,
   reducers: {
     setAnswer: (state, action: PayloadAction<IAnswerState>) => {
-      console.log(action.payload.answer);
       state.answer = action.payload.answer;
-    },
-  },
+    }
+  }
 });
 
 export const { setAnswer } = answerSlice.actions;

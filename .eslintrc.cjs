@@ -30,6 +30,12 @@ module.exports = {
     "rules": {
         "@typescript-eslint/quotes": "off",
         "@typescript-eslint/semi": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "react/react-in-jsx-scope": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
     }
 }
