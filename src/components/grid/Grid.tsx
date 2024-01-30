@@ -19,7 +19,7 @@ export const Grid = ({ guess }: IGridProps): JSX.Element => {
     setRows(updatedRows.concat(Array(guessesRemaining).fill("")));
   }, [guess, guesses]);
 
-  //try: include id using react hook useId in rows array to use as key
+  // try: include id using react hook useId in rows array to use as key
   return (
     <section className="mx-auto max-w-80 sm:max-w-md sm:mx-auto">
       <div className="grid grid-rows-5 gap-4 my-6 sm:my-10 mx-10 sm:mx-0">

@@ -1,3 +1,3 @@
 export interface IGridProps {
-  guess: string;
+  guess: string
 }

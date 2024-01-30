@@ -4,6 +4,7 @@ import { Keys } from "../Keys";
 import React from "react";
 
 export const Keyboard = ({ onButtonClick }: IKeyboardProps): JSX.Element => {
+ 
   const renderRow = (row: string[], className: string): JSX.Element => (
     <div
       key={className}

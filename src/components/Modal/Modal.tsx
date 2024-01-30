@@ -4,11 +4,11 @@ export const Modal = ({
   show,
   close,
   message,
-  setMessage,
+  setMessage
 }: IModalPropsTypes): JSX.Element => {
-  //to be implemented
-  const handleNewGame = () => {
-    //implement new game logic
+  // to be implemented
+  const handleNewGame = (): void => {
+    // implement new game logic
     console.log(
       "implement new game logic - reset guesses state, message, guess usestate"
     );
@@ -37,7 +37,8 @@ export const Modal = ({
           Title
         </h2> */}
 
-        {message === "won" || message === "lost" ? (
+        {message === "won" || message === "lost"
+          ? (
           <>
             <p className="text-center font-light bg-white w-10/12 m-auto mt-7 mb-5 py-3 px-4 block border border-1 rounded-3xl focus:outline-none focus:border-primary ">
               You {message}!
@@ -49,11 +50,12 @@ export const Modal = ({
               Play New Game
             </button>
           </>
-        ) : (
+            )
+          : (
           <p className="text-center font-light bg-white w-10/12 m-auto mt-7 mb-5 py-3 px-4 block border border-1 rounded-3xl focus:outline-none focus:border-primary ">
             {message}
           </p>
-        )}
+            )}
       </article>
     </div>
   );

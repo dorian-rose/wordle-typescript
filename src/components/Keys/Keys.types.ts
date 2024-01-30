@@ -1,4 +1,4 @@
 export interface IKeysProps {
-  letter: string;
-  onButtonClick: (letter: string) => void;
+  letter: string
+  onButtonClick: (letter: string) => void
 }

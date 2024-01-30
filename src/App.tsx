@@ -4,7 +4,7 @@ import { useAppDispatch } from "./store/store";
 import { useEffect, useState } from "react";
 import { useGuess } from "./hooks/useGuess";
 
-function App(): JSX.Element {
+function App (): JSX.Element {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string>("");
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -36,7 +36,7 @@ function App(): JSX.Element {
   return (
     <div className="mx-auto w-96 relative  w-screen sm:max-w-screen-md sm:my-8">
       <header className="border-b border-gray-400 py-4 sm:max-w-md mx-auto">
-        <h1 className="text-3xl text-red-600 sm:text-5xl font-bold text-center uppercase mt-4 ">
+        <h1 className="text-5xl text-green-600 md:text-6xl font-bold text-center uppercase mt-4 ">
           Wordle
         </h1>
       </header>

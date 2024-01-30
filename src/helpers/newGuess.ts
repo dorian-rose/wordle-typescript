@@ -1,23 +1,23 @@
 import { type IKeyboard, type IGuess } from "../models";
 
 export interface INewGuessProps extends IGuess {
-  guesses: IGuess[];
-  oldKeyboard: IKeyboard | null;
+  guesses: IGuess[]
+  oldKeyboard: IKeyboard | null
 }
 
 export interface INewGuessResult extends IGuess {
-  keyboard: IKeyboard;
-  gameState: string;
+  keyboard: IKeyboard
+  gameState: string
 }
 
 export const makeNewGuess = ({
   guessWord,
   result,
   guesses,
-  oldKeyboard,
+  oldKeyboard
 }: INewGuessProps): INewGuessResult => {
   // keyboard logic
-  console.log("length", guesses.length);
+
   const keyboard: IKeyboard = { ...oldKeyboard };
   result.forEach((r, index) => {
     const letterInResult = guessWord[index];

@@ -4,7 +4,7 @@ import { type IGuessState, type IGuessAction } from "../../../models/models";
 const initialState: IGuessState = {
   guesses: [],
   keyboard: {},
-  gameState: "playing",
+  gameState: "playing"
 };
 
 export const guessesSlice = createSlice({
@@ -16,14 +16,14 @@ export const guessesSlice = createSlice({
         ...state.guesses,
         {
           guessWord: action.payload.guessWord,
-          result: action.payload.result,
-        },
+          result: action.payload.result
+        }
       ];
       state.guesses = newState;
       state.keyboard = action.payload.keyboard;
       state.gameState = action.payload.gameState;
-    },
-  },
+    }
+  }
 });
 
 export const { setGuesses } = guessesSlice.actions;

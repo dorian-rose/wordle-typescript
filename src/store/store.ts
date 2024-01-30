@@ -4,14 +4,14 @@ import { answerSlice } from "./slice/answer/answerSlice";
 import {
   type TypedUseSelectorHook,
   useDispatch,
-  useSelector,
+  useSelector
 } from "react-redux";
 
 export const store = configureStore({
   reducer: {
     guesses: guessesSlice.reducer,
-    answer: answerSlice.reducer,
-  },
+    answer: answerSlice.reducer
+  }
 });
 
 // types

@@ -18,7 +18,7 @@ export const Keys = ({ letter, onButtonClick }: IKeysProps): JSX.Element => {
       onClick={(ev) => {
         onClick(ev);
       }}
-      className={`w-10 sm:w-20 capitalize h-10 m-1 rounded-md grid place-items-center text-base  text-black cursor-pointer font-bold shadow-xl ${
+      className={`min-w-fit px-2 w-10 sm:w-20 capitalize h-10 m-1 rounded-md grid place-items-center text-base  text-black cursor-pointer font-bold shadow-xl ${
         keyState === "match"
           ? "bg-green-500 text-white border-green-500"
           : keyState === "present"

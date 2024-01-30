@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useId } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppSelector, useAppDispatch } from "../store/store";
 import { calculateGuess, isWordValid } from "../helpers";
 import { makeNewGuess, setGuesses } from "../store/slice/guesses";
@@ -6,7 +6,7 @@ import {
   type ResultStates,
   type IGuessAction,
   type IKeyboard,
-  IGuess,
+  type IGuess
 } from "../models";
 import { type IUseGuessResult, type IUseGuessProps } from "./useGuess.types";
 /// End imports///
@@ -15,15 +15,16 @@ export const useGuess = ({ setMessage }: IUseGuessProps): IUseGuessResult => {
   const dispatch = useAppDispatch();
   const [guess, setGuess] = useState("");
 
-  //useRef to ensure current value used
+  // useRef to ensure current value used//
   const keyboardRef = useRef<IKeyboard | null>(null);
   const answerRef = useRef<string | null>(null);
   const guessesRef = useRef<IGuess[] | null>(null);
-  const { guesses, keyboard } = useAppSelector((state) => state.guesses);
-  const { answer } = useAppSelector((state) => state.answer);
-  guessesRef.current = guesses;
-  keyboardRef.current = keyboard;
-  answerRef.current = answer;
+  // const { guesses, keyboard } = useAppSelector((state) => state.guesses);
+  // const { answer } = useAppSelector((state) => state.answer);
+  guessesRef.current = useAppSelector((state) => state.guesses.guesses);
+  keyboardRef.current = useAppSelector((state) => state.guesses.keyboard);
+  answerRef.current = useAppSelector((state) => state.answer.answer);
+  // end current values//
 
   const addGuessLetter = (letter: string): void => {
     setGuess((curGuess) => {
@@ -54,7 +55,7 @@ export const useGuess = ({ setMessage }: IUseGuessProps): IUseGuessResult => {
             // 2. calculateguess:  calculate correct letters
             const result: ResultStates[] = calculateGuess({
               guessWord: newGuess,
-              answerWord: answerRef.current,
+              answerWord: answerRef.current
             });
 
             // 3. dispatch to state
@@ -62,9 +63,9 @@ export const useGuess = ({ setMessage }: IUseGuessProps): IUseGuessResult => {
               guessWord: newGuess,
               result,
               guesses: guessesRef.current,
-              oldKeyboard: keyboardRef.current,
+              oldKeyboard: keyboardRef.current
             });
-            console.log(newGuessObject.gameState);
+
             if (newGuessObject.gameState !== "playing") {
               setMessage(newGuessObject.gameState);
             }
